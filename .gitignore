@@ -1,2 +1,5 @@
 .idea
 .env
+database.db
+token.json
+
