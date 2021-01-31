@@ -2,6 +2,7 @@ package telegram
 
 import (
 	"context"
+	"github.com/StanislavDimitrenco/bot-reminder/pkg/cron"
 	"github.com/yanzay/tbot/v2"
 	"os"
 )
@@ -12,5 +13,6 @@ func Run(ctx context.Context) {
 	bot := tbot.New(token)
 	c := bot.Client()
 	Handle(ctx, c, bot)
+	cron.SenderAutoMessages(ctx, c)
 	_ = bot.Start()
 }

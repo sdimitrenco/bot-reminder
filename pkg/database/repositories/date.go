@@ -19,8 +19,8 @@ func (d Date) Create(date *models.Date) *models.Date {
 	return date
 }
 
-func (d Date) Save(date *models.Date) *models.Date {
-	d.db.Save(&date)
+func (d Date) Save(date *models.Date, t time.Time, name string) *models.Date {
+	d.db.Model(date).Where("date = ?", t).Update("people_name", name)
 	return date
 }
 

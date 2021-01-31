@@ -4,7 +4,6 @@ import (
 	"context"
 	"github.com/StanislavDimitrenco/bot-reminder/pkg/controlers"
 	"github.com/StanislavDimitrenco/bot-reminder/pkg/database"
-	"github.com/StanislavDimitrenco/bot-reminder/pkg/parsers"
 	"github.com/StanislavDimitrenco/bot-reminder/pkg/telegram"
 	"github.com/joho/godotenv"
 	"log"
@@ -33,9 +32,6 @@ func main() {
 
 	//parser daily text
 	go controlers.GetDailyText(ctx)
-
-	//parse list users
-	go parsers.RunTableParser(ctx)
 
 	//telegram server
 	go telegram.Run(ctx)

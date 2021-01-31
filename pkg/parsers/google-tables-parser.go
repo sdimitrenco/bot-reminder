@@ -11,6 +11,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 	"time"
 
 	"golang.org/x/oauth2"
@@ -73,7 +74,7 @@ func saveToken(path string, token *oauth2.Token) {
 	json.NewEncoder(f).Encode(token)
 }
 
-func RunTableParser(ctx context.Context) {
+func RunTableParser(ctx context.Context, month string, year int) {
 	b, err := ioutil.ReadFile("credentials.json")
 	if err != nil {
 		log.Fatalf("Unable to read client secret file: %v", err)
@@ -94,12 +95,13 @@ func RunTableParser(ctx context.Context) {
 	// Prints the names and majors of students in a sample spreadsheet:
 	// https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
 	spreadsheetId := os.Getenv("TABLE_KEY")
-	readRange := "ЯНВАРЬ 2021!A2:B"
+	readRange := month + " " + strconv.Itoa(year) + "!A2:B"
 	resp, err := srv.Spreadsheets.Values.Get(spreadsheetId, readRange).Do()
 	if err != nil {
 		log.Fatalf("Unable to retrieve data from sheet: %v", err)
 	}
 	var stringDate string
+	var stringName string
 	var t time.Time
 	var blankTime time.Time
 	layout := "02.01.2006"
@@ -111,13 +113,20 @@ func RunTableParser(ctx context.Context) {
 		for _, row := range resp.Values {
 
 			stringDate = fmt.Sprintf("%s", row[0])
+			stringName = fmt.Sprintf("%s", row[1])
 			t, _ = time.Parse(layout, stringDate)
+
 			if dateRepo.FindByDate(t).Date == blankTime {
 				dateRepo.Create(&models.Date{
-
 					Date:       t,
 					PeopleName: fmt.Sprintf("%s", row[1]),
 				})
+			}
+
+			if dateRepo.FindByDate(t).PeopleName != stringName {
+				dateRepo.Save(&models.Date{
+					PeopleName: fmt.Sprintf("%s", row[1]),
+				}, t, stringName)
 			}
 
 		}
