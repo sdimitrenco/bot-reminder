@@ -98,7 +98,8 @@ func RunTableParser(ctx context.Context, month string, year int) {
 	readRange := month + " " + strconv.Itoa(year) + "!A2:B"
 	resp, err := srv.Spreadsheets.Values.Get(spreadsheetId, readRange).Do()
 	if err != nil {
-		log.Fatalf("Unable to retrieve data from sheet: %v", err)
+		log.Printf("unable to retrieve data from sheet: %v\n", err)
+		return
 	}
 	var stringDate string
 	var stringName string
