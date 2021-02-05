@@ -34,7 +34,7 @@ func LeadingToday(ctx context.Context, client *tbot.Client) {
 	arr := userRepo.GetAllRecords()
 
 	t := time.Now()
-	text := "Сегодня ведет:\n"
+	text := "Сегодня ведёт:\n"
 	name := controlers.GetUser(ctx, t)
 
 	if name != "Отдыхаем, никто не ведет" {
