@@ -39,6 +39,6 @@ func GetUser(ctx context.Context, t time.Time) string {
 		return fmt.Sprintf("<b>%s</b>", userDate.PeopleName)
 	}
 
-	return "Отдыхаем, ни кто не ведет"
+	return "Отдыхаем, никто не ведет"
 
 }

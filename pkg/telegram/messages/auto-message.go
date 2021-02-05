@@ -16,10 +16,10 @@ func LeadingTomorrow(ctx context.Context, client *tbot.Client) {
 	arr := userRepo.GetAllRecords()
 
 	t := time.Now().Add(24 * time.Hour)
-	text := "Завтра ведет\n"
+	text := "Завтра ведет:\n"
 	name := controlers.GetUser(ctx, t)
 
-	if name != "Сегодня мы отдыхаем" {
+	if name != "Отдыхаем, никто не ведет" {
 		for _, value := range arr {
 			chatId := value.ChatId
 			_, _ = client.SendMessage(chatId, text+name, tbot.OptParseModeHTML)
@@ -34,10 +34,10 @@ func LeadingToday(ctx context.Context, client *tbot.Client) {
 	arr := userRepo.GetAllRecords()
 
 	t := time.Now()
-	text := "Завтра ведет\n"
+	text := "Сегодня ведет:\n"
 	name := controlers.GetUser(ctx, t)
 
-	if name != "Сегодня мы отдыхаем" {
+	if name != "Отдыхаем, никто не ведет" {
 		for _, value := range arr {
 			chatId := value.ChatId
 			_, _ = client.SendMessage(chatId, text+name, tbot.OptParseModeHTML)
