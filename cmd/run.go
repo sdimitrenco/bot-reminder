@@ -2,15 +2,17 @@ package cmd
 
 import (
 	"context"
+	"log"
+
 	"github.com/StanislavDimitrenco/bot-reminder/pkg/calendar"
 	"github.com/StanislavDimitrenco/bot-reminder/pkg/controlers"
 	"github.com/StanislavDimitrenco/bot-reminder/pkg/database"
 	"github.com/StanislavDimitrenco/bot-reminder/pkg/parsers"
 	"github.com/StanislavDimitrenco/bot-reminder/pkg/telegram"
 	"github.com/joho/godotenv"
-	"log"
 )
 
+//Run - start bot some body
 func Run() {
 	var ctx context.Context
 	//load env file
@@ -31,6 +33,9 @@ func Run() {
 	//parser daily text
 	go controlers.GetDailyText(ctx)
 
+	telegram.CallBack(ctx)
+
 	//telegram server
 	go telegram.Run(ctx)
+
 }

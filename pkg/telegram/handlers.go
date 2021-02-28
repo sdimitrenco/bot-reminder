@@ -18,7 +18,7 @@ func Handle(ctx context.Context, client *tbot.Client, server *tbot.Server) {
 		db := ctx.Value("db").(*gorm.DB)
 		dtRepo := repositories.NewDailyText(db)
 		t := time.Now()
-		date := t.Format("2006/01/02")
+		date := t.Format("2006/1/2")
 		dt := dtRepo.FindByDate(date)
 
 		text := fmt.Sprintf("🗓️ <b>%s</b>\n\n<i>%s</i> \n\n%s ", dt.Title, dt.Script, dt.Text)
@@ -30,7 +30,7 @@ func Handle(ctx context.Context, client *tbot.Client, server *tbot.Server) {
 		db := ctx.Value("db").(*gorm.DB)
 		dtRepo := repositories.NewDailyText(db)
 		t := time.Now().Add(24 * time.Hour)
-		date := t.Format("2006/01/02")
+		date := t.Format("2006/1/2")
 		dt := dtRepo.FindByDate(date)
 
 		text := fmt.Sprintf("🗓️ <b>%s</b>\n\n<i>%s</i> \n\n%s ", dt.Title, dt.Script, dt.Text)
@@ -50,5 +50,23 @@ func Handle(ctx context.Context, client *tbot.Client, server *tbot.Server) {
 		text := controlers.GetUser(ctx, t)
 		_, _ = client.SendMessage(m.Chat.ID, text, tbot.OptParseModeHTML)
 	})
+
+	server.HandleMessage("📅 Список ведущих за месяц", func(m *tbot.Message) {
+		_, _ = client.SendMessage(m.Chat.ID, CallBack(ctx), tbot.OptParseModeHTML)
+	})
+
+}
+
+func CallBack(ctx context.Context) (users string) {
+	allUsers := controlers.GetAllUsersDate(ctx)
+	nowMonth := time.Now().Format("Jan")
+
+	for _, value := range allUsers {
+		if nowMonth == value.Date.Format("Jan") {
+			users += fmt.Sprintf("%s - %s \n", value.Date.Format("01-02"), value.PeopleName)
+		}
+	}
+
+	return users
 
 }

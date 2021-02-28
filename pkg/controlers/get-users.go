@@ -3,22 +3,18 @@ package controlers
 import (
 	"context"
 	"fmt"
+	"github.com/StanislavDimitrenco/bot-reminder/pkg/database/models"
 	"github.com/StanislavDimitrenco/bot-reminder/pkg/database/repositories"
 	"gorm.io/gorm"
 	"time"
 )
 
-func GetAllUsersDate(ctx context.Context) {
+func GetAllUsersDate(ctx context.Context) []models.Date {
 	db := ctx.Value("db").(*gorm.DB)
 	dateRepo := repositories.NewDate(db)
 
-	allDate := dateRepo.GetAll()
+	return dateRepo.GetAll()
 
-	for _, value := range allDate {
-		fmt.Println(value.PeopleName)
-		fmt.Println(value.Date.Format("01-02"))
-
-	}
 }
 
 func GetUser(ctx context.Context, t time.Time) string {

@@ -30,10 +30,18 @@ var hostTomorrow = tbot.KeyboardButton{
 	RequestPoll:     nil,
 }
 
+var hostsAllMonth = tbot.KeyboardButton{
+	Text:            "📅 Список ведущих за месяц",
+	RequestContact:  false,
+	RequestLocation: false,
+	RequestPoll:     nil,
+}
+
 func MenuButtons() *tbot.ReplyKeyboardMarkup {
 	return &tbot.ReplyKeyboardMarkup{
 		Keyboard: [][]tbot.KeyboardButton{
 			{today, tomorrow, hostToday, hostTomorrow},
+			{hostsAllMonth},
 		},
 		ResizeKeyboard:  true,
 		OneTimeKeyboard: false,

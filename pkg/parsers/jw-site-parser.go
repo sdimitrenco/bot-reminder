@@ -24,7 +24,9 @@ func ParserDailyVerse(ctx context.Context, url string, date string) string {
 
 	doc, _ := goquery.NewDocumentFromReader(res.Body)
 
-	linkAll := doc.Find(".todayItems").Find(".pub-es21").Find(".scalableui")
+	fmt.Println()
+
+	linkAll := doc.Find(".todayItems").Find(".pub-es").Find(".scalableui")
 	title, _ := linkAll.Find("header").Find("h2").Html()
 	script, _ := linkAll.Find(".themeScrp").Html()
 	text, _ := linkAll.Find(".bodyTxt").Find(".sb").Html()
