@@ -63,7 +63,11 @@ func CallBack(ctx context.Context) (users string) {
 
 	for _, value := range allUsers {
 		if nowMonth == value.Date.Format("Jan") {
-			users += fmt.Sprintf("%s - %s \n", value.Date.Format("01-02"), value.PeopleName)
+			if time.Now().Format("2006/1/2") == value.Date.Format("2006/1/2") {
+				users += fmt.Sprintf("➡️ <b>%s - %s</b> \n", value.Date.Format("01-02"), value.PeopleName)
+			} else {
+				users += fmt.Sprintf("%s - %s \n", value.Date.Format("01-02"), value.PeopleName)
+			}
 		}
 	}
 
