@@ -14,11 +14,11 @@ func SenderAutoMessages(ctx context.Context, client *tbot.Client) {
 
 	crn := cron.New()
 	//name leading tomorrow
-	_, _ = crn.AddFunc("CRON_TZ=Europe/Moscow 00 20 * * *", func() {
+	_, _ = crn.AddFunc("CRON_TZ=Europe/Moscow 00 19 * * *", func() {
 		messages.LeadingTomorrow(ctx, client)
 	})
 	//name leading today
-	_, _ = crn.AddFunc("CRON_TZ=Europe/Moscow 00 09 * * *", func() {
+	_, _ = crn.AddFunc("CRON_TZ=Europe/Moscow 00 08 * * *", func() {
 		messages.LeadingToday(ctx, client)
 	})
 	//parse list users
@@ -27,12 +27,12 @@ func SenderAutoMessages(ctx context.Context, client *tbot.Client) {
 		go parsers.RunTableParser(ctx, nowMonth, nowYear)
 	})
 	//parse list users next month
-	_, _ = crn.AddFunc("CRON_TZ=Europe/Moscow 00 02 28 * *", func() {
+	_, _ = crn.AddFunc("CRON_TZ=Europe/Moscow 00 01 28 * *", func() {
 		nextMonth, nextYear := calendar.NextMonth()
 		go parsers.RunTableParser(ctx, nextMonth, nextYear)
 	})
 	//get daily text
-	_, _ = crn.AddFunc("CRON_TZ=Europe/Moscow 00 02 * * *", func() {
+	_, _ = crn.AddFunc("CRON_TZ=Europe/Moscow 00 01 * * *", func() {
 		controlers.GetDailyText(ctx)
 	})
 

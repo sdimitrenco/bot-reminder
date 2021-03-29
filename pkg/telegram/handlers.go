@@ -33,7 +33,9 @@ func Handle(ctx context.Context, client *tbot.Client, server *tbot.Server) {
 		date := t.Format("2006/1/2")
 		dt := dtRepo.FindByDate(date)
 
-		text := fmt.Sprintf("🗓️ <b>%s</b>\n\n<i>%s</i> \n\n%s ", dt.Title, dt.Script, dt.Text)
+		text := fmt.Sprintf("🗓️ <b>%s</b>\n\n", dt.Title)
+		_, _ = client.SendMessage(m.Chat.ID, text, tbot.OptParseModeHTML)
+		text = fmt.Sprintf("🗓️ <b>%s</b>\n\n<i>%s</i> ", dt.Script, dt.Text)
 		_, _ = client.SendMessage(m.Chat.ID, text, tbot.OptParseModeHTML)
 	})
 
