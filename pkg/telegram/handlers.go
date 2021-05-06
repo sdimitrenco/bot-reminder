@@ -15,6 +15,7 @@ func Handle(ctx context.Context, client *tbot.Client, server *tbot.Server) {
 
 	//send today's daily text
 	server.HandleMessage("📗 Стих на cегодня", func(m *tbot.Message) {
+
 		db := ctx.Value("db").(*gorm.DB)
 		dtRepo := repositories.NewDailyText(db)
 		t := time.Now()

@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/StanislavDimitrenco/bot-reminder/pkg/controlers"
 	"github.com/StanislavDimitrenco/bot-reminder/pkg/database/repositories"
+	"github.com/StanislavDimitrenco/bot-reminder/pkg/weather"
 	"github.com/yanzay/tbot/v2"
 	"gorm.io/gorm"
 	"time"
@@ -43,4 +44,16 @@ func LeadingToday(ctx context.Context, client *tbot.Client) {
 			_, _ = client.SendMessage(chatId, text+name, tbot.OptParseModeHTML)
 		}
 	}
+}
+
+func Weather(ctx context.Context, client *tbot.Client) {
+	db := ctx.Value("db").(*gorm.DB)
+
+	userRepo := repositories.NewUser(db)
+	arr := userRepo.GetAllRecords()
+	for _, value := range arr {
+		chatId := value.ChatId
+		_, _ = client.SendMessage(chatId, weather.CreateWeatherMessage(), tbot.OptParseModeHTML)
+	}
+
 }
