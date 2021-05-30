@@ -37,11 +37,18 @@ var hostsAllMonth = tbot.KeyboardButton{
 	RequestPoll:     nil,
 }
 
+var weather = tbot.KeyboardButton{
+	Text:            "🌤️ Погода",
+	RequestContact:  false,
+	RequestLocation: false,
+	RequestPoll:     nil,
+}
+
 func MenuButtons() *tbot.ReplyKeyboardMarkup {
 	return &tbot.ReplyKeyboardMarkup{
 		Keyboard: [][]tbot.KeyboardButton{
 			{today, tomorrow, hostToday, hostTomorrow},
-			{hostsAllMonth},
+			{hostsAllMonth, weather},
 		},
 		ResizeKeyboard:  true,
 		OneTimeKeyboard: false,
