@@ -18,7 +18,7 @@ func SenderAutoMessages(ctx context.Context, client *tbot.Client) {
 		messages.LeadingTomorrow(ctx, client)
 	})
 	//name leading today
-	_, _ = crn.AddFunc("CRON_TZ=Europe/Moscow 00 08 * * *", func() {
+	_, _ = crn.AddFunc("CRON_TZ=Europe/Moscow 00 09 * * *", func() {
 		messages.LeadingToday(ctx, client)
 		//messages.Weather(ctx, client)
 	})
